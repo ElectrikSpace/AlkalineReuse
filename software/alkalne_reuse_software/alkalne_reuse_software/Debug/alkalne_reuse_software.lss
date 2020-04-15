@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000034  00000000  00000000  00000ef8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000002ff  00000000  00000000  00000f2c  2**0
+ 10 .debug_str    00000306  00000000  00000000  00000f2c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000000c6  00000000  00000000  0000122b  2**0
+ 11 .debug_loc    000000c6  00000000  00000000  00001232  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  000012f1  2**0
+ 12 .debug_ranges 00000018  00000000  00000000  000012f8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -82,7 +82,7 @@ void check() {
   38:	41 e0       	ldi	r20, 0x01	; 1
   3a:	42 a9       	sts	0x42, r20	; 0x800042 <chargeState>
 	// check voltage
-	ADMUX = 0b00000000; // ADC multiplexer PB0 
+	ADMUX = 0b00000000; // ADC multiplexer PB0
   3c:	1b bb       	out	0x1b, r17	; 27
 	ADCSRA |= (1 << ADSC); // start conversion
   3e:	ee 9a       	sbi	0x1d, 6	; 29
@@ -175,7 +175,7 @@ void check() {
 			}
 		}
 	}
-	
+
 	// check temperature
 	ADMUX = 0b00000001; // ADC multiplexer PB1
   a4:	41 e0       	ldi	r20, 0x01	; 1
@@ -279,12 +279,12 @@ int main(void)
 	DDRB = 0b00000100; // set inputs and outputs
  110:	44 e0       	ldi	r20, 0x04	; 4
  112:	41 b9       	out	0x01, r20	; 1
-    PORTB = 0b0000000; // outputs set to LOW and input set to h-Z
+  PORTB = 0b0000000; // outputs set to LOW and input set to h-Z
  114:	12 b9       	out	0x02, r17	; 2
 	DIDR0 = 0b00000011; // disable digital input for ADC inputs
  116:	43 e0       	ldi	r20, 0x03	; 3
  118:	47 bb       	out	0x17, r20	; 23
-    while (1) 
+    while (1)
     {
 		check();
  11a:	8e df       	rcall	.-228    	; 0x38 <check>
@@ -324,7 +324,7 @@ int main(void)
  148:	41 50       	subi	r20, 0x01	; 1
  14a:	51 0b       	sbc	r21, r17
 	DIDR0 = 0b00000011; // disable digital input for ADC inputs
-    while (1) 
+    while (1)
     {
 		check();
 		if(chargeState == 1){

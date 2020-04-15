@@ -3,7 +3,7 @@
  *
  * Created: 01/04/2020
  * Author : snoiry.com
- */ 
+ */
 
 #define F_CPU (1000000UL) // 1 MHz
 #define MinVoltage 10 // min voltage for charging
@@ -23,7 +23,7 @@ uint8_t temperatureState = 0; //  0 for OK or none, 1 for under temperature, 2 f
 void check() {
 	chargeState = 1;
 	// check voltage
-	ADMUX = 0b00000000; // ADC multiplexer PB0 
+	ADMUX = 0b00000000; // ADC multiplexer PB0
 	ADCSRA |= (1 << ADSC); // start conversion
 	while(ADCSRA & (1 << ADSC)); // wait until complete
 	if(voltageState == 0){
@@ -64,7 +64,7 @@ void check() {
 			}
 		}
 	}
-	
+
 	// check temperature
 	ADMUX = 0b00000001; // ADC multiplexer PB1
 	ADCSRA |= (1 << ADSC); // start conversion
@@ -112,9 +112,9 @@ void check() {
 int main(void)
 {
 	DDRB = 0b00000100; // set inputs and outputs
-    PORTB = 0b0000000; // outputs set to LOW and input set to h-Z
+  PORTB = 0b0000000; // outputs set to LOW and input set to h-Z
 	DIDR0 = 0b00000011; // disable digital input for ADC inputs
-    while (1) 
+    while (1)
     {
 		check();
 		if(chargeState == 1){
@@ -130,4 +130,3 @@ int main(void)
 		}
     }
 }
-
