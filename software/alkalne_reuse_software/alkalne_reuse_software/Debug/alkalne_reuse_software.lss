@@ -95,7 +95,7 @@ void check() {
   48:	0e c0       	rjmp	.+28     	; 0x66 <__stack+0x7>
 		if(ADCL < MinVoltage){
   4a:	49 b3       	in	r20, 0x19	; 25
-  4c:	4a 30       	cpi	r20, 0x0A	; 10
+  4c:	47 34       	cpi	r20, 0x47	; 71
   4e:	20 f4       	brcc	.+8      	; 0x58 <__SREG__+0x19>
 			voltageState = 1; // under voltage
   50:	41 e0       	ldi	r20, 0x01	; 1
@@ -106,7 +106,7 @@ void check() {
 		}
 		else if(ADCL > MaxVoltage){
   58:	49 b3       	in	r20, 0x19	; 25
-  5a:	45 31       	cpi	r20, 0x15	; 21
+  5a:	43 36       	cpi	r20, 0x63	; 99
   5c:	18 f1       	brcs	.+70     	; 0xa4 <__stack+0x45>
 			voltageState = 3; // over voltage
   5e:	43 e0       	ldi	r20, 0x03	; 3
@@ -121,7 +121,7 @@ void check() {
   68:	71 f4       	brne	.+28     	; 0x86 <__stack+0x27>
 		if(ADCL < (MinVoltage + voltageHysteresis)){
   6a:	49 b3       	in	r20, 0x19	; 25
-  6c:	4c 30       	cpi	r20, 0x0C	; 12
+  6c:	49 34       	cpi	r20, 0x49	; 73
   6e:	10 f4       	brcc	.+4      	; 0x74 <__stack+0x15>
 			chargeState = 0;
   70:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
@@ -130,7 +130,7 @@ void check() {
 		else{
 			if(ADCL <= MaxVoltage){
   74:	49 b3       	in	r20, 0x19	; 25
-  76:	45 31       	cpi	r20, 0x15	; 21
+  76:	43 36       	cpi	r20, 0x63	; 99
   78:	10 f4       	brcc	.+4      	; 0x7e <__stack+0x1f>
 				voltageState = 0;
   7a:	11 a9       	sts	0x41, r17	; 0x800041 <voltageState>
@@ -151,7 +151,7 @@ void check() {
   88:	69 f4       	brne	.+26     	; 0xa4 <__stack+0x45>
 		if(ADCL > (MaxVoltage - voltageHysteresis)){
   8a:	49 b3       	in	r20, 0x19	; 25
-  8c:	43 31       	cpi	r20, 0x13	; 19
+  8c:	41 36       	cpi	r20, 0x61	; 97
   8e:	10 f0       	brcs	.+4      	; 0x94 <__stack+0x35>
 			chargeState = 0; // cannot be charged
   90:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
@@ -160,7 +160,7 @@ void check() {
 		else{
 			if(ADCL >= MinVoltage){
   94:	49 b3       	in	r20, 0x19	; 25
-  96:	4a 30       	cpi	r20, 0x0A	; 10
+  96:	47 34       	cpi	r20, 0x47	; 71
   98:	10 f0       	brcs	.+4      	; 0x9e <__stack+0x3f>
 				voltageState = 0;
   9a:	11 a9       	sts	0x41, r17	; 0x800041 <voltageState>
@@ -186,27 +186,27 @@ void check() {
   aa:	ee 99       	sbic	0x1d, 6	; 29
   ac:	fe cf       	rjmp	.-4      	; 0xaa <__stack+0x4b>
 	if(temperatureState == 0){
-  ae:	40 a1       	lds	r20, 0x40	; 0x800040 <__DATA_REGION_ORIGIN__>
+  ae:	40 a1       	lds	r20, 0x40	; 0x800040 <_edata>
   b0:	41 13       	cpse	r20, r17
   b2:	0e c0       	rjmp	.+28     	; 0xd0 <__stack+0x71>
 		if(ADCL < MinTemperature){
   b4:	49 b3       	in	r20, 0x19	; 25
-  b6:	4a 30       	cpi	r20, 0x0A	; 10
+  b6:	43 34       	cpi	r20, 0x43	; 67
   b8:	20 f4       	brcc	.+8      	; 0xc2 <__stack+0x63>
 			temperatureState = 1; // under voltage
   ba:	41 e0       	ldi	r20, 0x01	; 1
-  bc:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
+  bc:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
 			chargeState = 0; // cannot be charged
   be:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
   c0:	08 95       	ret
 		}
 		else if(ADCL > MaxTemperature){
   c2:	49 b3       	in	r20, 0x19	; 25
-  c4:	45 31       	cpi	r20, 0x15	; 21
+  c4:	43 3a       	cpi	r20, 0xA3	; 163
   c6:	18 f1       	brcs	.+70     	; 0x10e <__DATA_REGION_LENGTH__+0xe>
 			temperatureState = 3; // over voltage
   c8:	43 e0       	ldi	r20, 0x03	; 3
-  ca:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
+  ca:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
 			chargeState = 0; // cannot be charged
   cc:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
   ce:	08 95       	ret
@@ -217,7 +217,7 @@ void check() {
   d2:	71 f4       	brne	.+28     	; 0xf0 <__stack+0x91>
 		if(ADCL < (MinTemperature + temperatureHysteresis)){
   d4:	49 b3       	in	r20, 0x19	; 25
-  d6:	4c 30       	cpi	r20, 0x0C	; 12
+  d6:	45 34       	cpi	r20, 0x45	; 69
   d8:	10 f4       	brcc	.+4      	; 0xde <__stack+0x7f>
 			chargeState = 0;
   da:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
@@ -226,16 +226,16 @@ void check() {
 		else{
 			if(ADCL <= MaxTemperature){
   de:	49 b3       	in	r20, 0x19	; 25
-  e0:	45 31       	cpi	r20, 0x15	; 21
+  e0:	43 3a       	cpi	r20, 0xA3	; 163
   e2:	10 f4       	brcc	.+4      	; 0xe8 <__stack+0x89>
 				temperatureState = 0;
-  e4:	10 a9       	sts	0x40, r17	; 0x800040 <__DATA_REGION_ORIGIN__>
+  e4:	10 a9       	sts	0x40, r17	; 0x800040 <_edata>
   e6:	08 95       	ret
 			}
 			else{
 				temperatureState = 2;
   e8:	42 e0       	ldi	r20, 0x02	; 2
-  ea:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
+  ea:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
 				chargeState = 0;
   ec:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
   ee:	08 95       	ret
@@ -247,7 +247,7 @@ void check() {
   f2:	69 f4       	brne	.+26     	; 0x10e <__DATA_REGION_LENGTH__+0xe>
 		if(ADCL > (MaxTemperature - temperatureHysteresis)){
   f4:	49 b3       	in	r20, 0x19	; 25
-  f6:	43 31       	cpi	r20, 0x13	; 19
+  f6:	41 3a       	cpi	r20, 0xA1	; 161
   f8:	10 f0       	brcs	.+4      	; 0xfe <__stack+0x9f>
 			chargeState = 0; // cannot be charged
   fa:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
@@ -256,16 +256,16 @@ void check() {
 		else{
 			if(ADCL >= MinTemperature){
   fe:	49 b3       	in	r20, 0x19	; 25
- 100:	4a 30       	cpi	r20, 0x0A	; 10
+ 100:	43 34       	cpi	r20, 0x43	; 67
  102:	10 f0       	brcs	.+4      	; 0x108 <__DATA_REGION_LENGTH__+0x8>
 				temperatureState = 0;
- 104:	10 a9       	sts	0x40, r17	; 0x800040 <__DATA_REGION_ORIGIN__>
+ 104:	10 a9       	sts	0x40, r17	; 0x800040 <_edata>
  106:	08 95       	ret
 			}
 			else{
 				temperatureState = 1;
  108:	41 e0       	ldi	r20, 0x01	; 1
- 10a:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
+ 10a:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
 				chargeState = 0;
  10c:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
  10e:	08 95       	ret

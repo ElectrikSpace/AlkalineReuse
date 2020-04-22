@@ -6,10 +6,10 @@
  */
 
 #define F_CPU (1000000UL) // 1 MHz
-#define MinVoltage 10 // min voltage for charging
-#define MaxVoltage 20 // max voltage for charging
-#define MinTemperature 10 // min temperature for charging (basically prevent from sensor error)
-#define MaxTemperature 20 // max temperature for charging
+#define MinVoltage 71 // min voltage for charging : 1.20 V
+#define MaxVoltage 98 // max voltage for charging : 1.65 V
+#define MinTemperature 67 // min temperature for charging (basically prevent from sensor error) : 0°C
+#define MaxTemperature 162 // max temperature for charging : 40°C
 #define voltageHysteresis 2 // tolerance for voltage hysteresis
 #define temperatureHysteresis 2 // tolerance for temperature hysteresis
 
