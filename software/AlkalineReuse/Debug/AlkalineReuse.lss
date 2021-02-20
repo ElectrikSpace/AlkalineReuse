@@ -1,33 +1,33 @@
 
-alkalne_reuse_software.elf:     file format elf32-avr
+AlkalineReuse.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000168  00000000  00000000  00000074  2**1
+  0 .text         0000016c  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800040  00800040  000001dc  2**0
+  1 .data         00000000  00800040  00800040  000001e0  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000003  00800040  00800040  000001dc  2**0
+  2 .bss          00000003  00800040  00800040  000001e0  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000001dc  2**0
+  3 .comment      00000030  00000000  00000000  000001e0  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000020c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000210  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000028  00000000  00000000  00000248  2**0
+  5 .debug_aranges 00000028  00000000  00000000  0000024c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000004f5  00000000  00000000  00000270  2**0
+  6 .debug_info   000004f5  00000000  00000000  00000274  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000040f  00000000  00000000  00000765  2**0
+  7 .debug_abbrev 0000040f  00000000  00000000  00000769  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000384  00000000  00000000  00000b74  2**0
+  8 .debug_line   00000387  00000000  00000000  00000b78  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000034  00000000  00000000  00000ef8  2**2
+  9 .debug_frame  00000034  00000000  00000000  00000f00  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000306  00000000  00000000  00000f2c  2**0
+ 10 .debug_str    000002f4  00000000  00000000  00000f34  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000000c6  00000000  00000000  00001232  2**0
+ 11 .debug_loc    000000c6  00000000  00000000  00001228  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  000012f8  2**0
+ 12 .debug_ranges 00000018  00000000  00000000  000012ee  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,7 +67,7 @@ Disassembly of section .text:
   2e:	b2 07       	cpc	r27, r18
   30:	e1 f7       	brne	.-8      	; 0x2a <.do_clear_bss_loop>
   32:	6e d0       	rcall	.+220    	; 0x110 <main>
-  34:	97 c0       	rjmp	.+302    	; 0x164 <_exit>
+  34:	99 c0       	rjmp	.+306    	; 0x168 <_exit>
 
 00000036 <__bad_interrupt>:
   36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
@@ -175,7 +175,6 @@ void check() {
 			}
 		}
 	}
-
 	// check temperature
 	ADMUX = 0b00000001; // ADC multiplexer PB1
   a4:	41 e0       	ldi	r20, 0x01	; 1
@@ -186,7 +185,7 @@ void check() {
   aa:	ee 99       	sbic	0x1d, 6	; 29
   ac:	fe cf       	rjmp	.-4      	; 0xaa <__stack+0x4b>
 	if(temperatureState == 0){
-  ae:	40 a1       	lds	r20, 0x40	; 0x800040 <_edata>
+  ae:	40 a1       	lds	r20, 0x40	; 0x800040 <__DATA_REGION_ORIGIN__>
   b0:	41 13       	cpse	r20, r17
   b2:	0e c0       	rjmp	.+28     	; 0xd0 <__stack+0x71>
 		if(ADCL < MinTemperature){
@@ -195,7 +194,7 @@ void check() {
   b8:	20 f4       	brcc	.+8      	; 0xc2 <__stack+0x63>
 			temperatureState = 1; // under voltage
   ba:	41 e0       	ldi	r20, 0x01	; 1
-  bc:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
+  bc:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
 			chargeState = 0; // cannot be charged
   be:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
   c0:	08 95       	ret
@@ -206,7 +205,7 @@ void check() {
   c6:	18 f1       	brcs	.+70     	; 0x10e <__DATA_REGION_LENGTH__+0xe>
 			temperatureState = 3; // over voltage
   c8:	43 e0       	ldi	r20, 0x03	; 3
-  ca:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
+  ca:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
 			chargeState = 0; // cannot be charged
   cc:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
   ce:	08 95       	ret
@@ -229,13 +228,13 @@ void check() {
   e0:	43 3a       	cpi	r20, 0xA3	; 163
   e2:	10 f4       	brcc	.+4      	; 0xe8 <__stack+0x89>
 				temperatureState = 0;
-  e4:	10 a9       	sts	0x40, r17	; 0x800040 <_edata>
+  e4:	10 a9       	sts	0x40, r17	; 0x800040 <__DATA_REGION_ORIGIN__>
   e6:	08 95       	ret
 			}
 			else{
 				temperatureState = 2;
   e8:	42 e0       	ldi	r20, 0x02	; 2
-  ea:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
+  ea:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
 				chargeState = 0;
   ec:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
   ee:	08 95       	ret
@@ -259,13 +258,13 @@ void check() {
  100:	43 34       	cpi	r20, 0x43	; 67
  102:	10 f0       	brcs	.+4      	; 0x108 <__DATA_REGION_LENGTH__+0x8>
 				temperatureState = 0;
- 104:	10 a9       	sts	0x40, r17	; 0x800040 <_edata>
+ 104:	10 a9       	sts	0x40, r17	; 0x800040 <__DATA_REGION_ORIGIN__>
  106:	08 95       	ret
 			}
 			else{
 				temperatureState = 1;
  108:	41 e0       	ldi	r20, 0x01	; 1
- 10a:	40 a9       	sts	0x40, r20	; 0x800040 <_edata>
+ 10a:	40 a9       	sts	0x40, r20	; 0x800040 <__DATA_REGION_ORIGIN__>
 				chargeState = 0;
  10c:	12 a9       	sts	0x42, r17	; 0x800042 <chargeState>
  10e:	08 95       	ret
@@ -279,71 +278,74 @@ int main(void)
 	DDRB = 0b00000100; // set inputs and outputs
  110:	44 e0       	ldi	r20, 0x04	; 4
  112:	41 b9       	out	0x01, r20	; 1
-  PORTB = 0b0000000; // outputs set to LOW and input set to h-Z
+	PORTB = 0b0000000; // outputs set to LOW and input set to h-Z
  114:	12 b9       	out	0x02, r17	; 2
 	DIDR0 = 0b00000011; // disable digital input for ADC inputs
  116:	43 e0       	ldi	r20, 0x03	; 3
  118:	47 bb       	out	0x17, r20	; 23
+	ADCSRA = 0b10000011; // enable ADC and set ADC clock at 125 kHz
+ 11a:	43 e8       	ldi	r20, 0x83	; 131
+ 11c:	4d bb       	out	0x1d, r20	; 29
     while (1)
     {
 		check();
- 11a:	8e df       	rcall	.-228    	; 0x38 <check>
+ 11e:	8c df       	rcall	.-232    	; 0x38 <check>
 		if(chargeState == 1){
- 11c:	42 a1       	lds	r20, 0x42	; 0x800042 <chargeState>
- 11e:	41 30       	cpi	r20, 0x01	; 1
- 120:	b9 f4       	brne	.+46     	; 0x150 <main+0x40>
- 122:	40 ea       	ldi	r20, 0xA0	; 160
- 124:	50 e0       	ldi	r21, 0x00	; 0
+ 120:	42 a1       	lds	r20, 0x42	; 0x800042 <chargeState>
+ 122:	41 30       	cpi	r20, 0x01	; 1
+ 124:	b9 f4       	brne	.+46     	; 0x154 <main+0x44>
+ 126:	40 ea       	ldi	r20, 0xA0	; 160
+ 128:	50 e0       	ldi	r21, 0x00	; 0
 			for(int i = 0; i < 160; i++){
 				 PORTB = 0b0000100;
- 126:	64 e0       	ldi	r22, 0x04	; 4
- 128:	62 b9       	out	0x02, r22	; 2
+ 12a:	64 e0       	ldi	r22, 0x04	; 4
+ 12c:	62 b9       	out	0x02, r22	; 2
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 12a:	8f e2       	ldi	r24, 0x2F	; 47
- 12c:	95 e7       	ldi	r25, 0x75	; 117
- 12e:	81 50       	subi	r24, 0x01	; 1
- 130:	90 40       	sbci	r25, 0x00	; 0
- 132:	e9 f7       	brne	.-6      	; 0x12e <main+0x1e>
- 134:	00 c0       	rjmp	.+0      	; 0x136 <main+0x26>
- 136:	00 00       	nop
-				 _delay_ms(120);
+ 12e:	83 ed       	ldi	r24, 0xD3	; 211
+ 130:	90 e3       	ldi	r25, 0x30	; 48
+ 132:	81 50       	subi	r24, 0x01	; 1
+ 134:	90 40       	sbci	r25, 0x00	; 0
+ 136:	e9 f7       	brne	.-6      	; 0x132 <main+0x22>
+ 138:	00 c0       	rjmp	.+0      	; 0x13a <main+0x2a>
+ 13a:	00 00       	nop
+				 _delay_ms(idle_time);
 				 PORTB = 0b0000000;
- 138:	12 b9       	out	0x02, r17	; 2
- 13a:	81 ee       	ldi	r24, 0xE1	; 225
- 13c:	94 e0       	ldi	r25, 0x04	; 4
- 13e:	81 50       	subi	r24, 0x01	; 1
- 140:	90 40       	sbci	r25, 0x00	; 0
- 142:	e9 f7       	brne	.-6      	; 0x13e <main+0x2e>
- 144:	00 c0       	rjmp	.+0      	; 0x146 <main+0x36>
- 146:	00 00       	nop
- 148:	41 50       	subi	r20, 0x01	; 1
- 14a:	51 0b       	sbc	r21, r17
-	DIDR0 = 0b00000011; // disable digital input for ADC inputs
+ 13c:	12 b9       	out	0x02, r17	; 2
+ 13e:	8f e2       	ldi	r24, 0x2F	; 47
+ 140:	95 e7       	ldi	r25, 0x75	; 117
+ 142:	81 50       	subi	r24, 0x01	; 1
+ 144:	90 40       	sbci	r25, 0x00	; 0
+ 146:	e9 f7       	brne	.-6      	; 0x142 <main+0x32>
+ 148:	00 c0       	rjmp	.+0      	; 0x14a <main+0x3a>
+ 14a:	00 00       	nop
+ 14c:	41 50       	subi	r20, 0x01	; 1
+ 14e:	51 0b       	sbc	r21, r17
+	ADCSRA = 0b10000011; // enable ADC and set ADC clock at 125 kHz
     while (1)
     {
 		check();
 		if(chargeState == 1){
 			for(int i = 0; i < 160; i++){
- 14c:	69 f7       	brne	.-38     	; 0x128 <main+0x18>
- 14e:	e5 cf       	rjmp	.-54     	; 0x11a <main+0xa>
- 150:	9f e7       	ldi	r25, 0x7F	; 127
- 152:	44 e8       	ldi	r20, 0x84	; 132
- 154:	5e e1       	ldi	r21, 0x1E	; 30
- 156:	91 50       	subi	r25, 0x01	; 1
- 158:	40 40       	sbci	r20, 0x00	; 0
- 15a:	50 40       	sbci	r21, 0x00	; 0
- 15c:	e1 f7       	brne	.-8      	; 0x156 <main+0x46>
- 15e:	00 c0       	rjmp	.+0      	; 0x160 <main+0x50>
- 160:	00 00       	nop
- 162:	db cf       	rjmp	.-74     	; 0x11a <main+0xa>
+ 150:	69 f7       	brne	.-38     	; 0x12c <main+0x1c>
+ 152:	e5 cf       	rjmp	.-54     	; 0x11e <main+0xe>
+ 154:	9f e7       	ldi	r25, 0x7F	; 127
+ 156:	44 e8       	ldi	r20, 0x84	; 132
+ 158:	5e e1       	ldi	r21, 0x1E	; 30
+ 15a:	91 50       	subi	r25, 0x01	; 1
+ 15c:	40 40       	sbci	r20, 0x00	; 0
+ 15e:	50 40       	sbci	r21, 0x00	; 0
+ 160:	e1 f7       	brne	.-8      	; 0x15a <main+0x4a>
+ 162:	00 c0       	rjmp	.+0      	; 0x164 <main+0x54>
+ 164:	00 00       	nop
+ 166:	db cf       	rjmp	.-74     	; 0x11e <main+0xe>
 
-00000164 <_exit>:
- 164:	f8 94       	cli
+00000168 <_exit>:
+ 168:	f8 94       	cli
 
-00000166 <__stop_program>:
- 166:	ff cf       	rjmp	.-2      	; 0x166 <__stop_program>
+0000016a <__stop_program>:
+ 16a:	ff cf       	rjmp	.-2      	; 0x16a <__stop_program>

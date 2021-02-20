@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>alkalne_reuse_software</AssemblyName>
-    <Name>alkalne_reuse_software</Name>
-    <RootNamespace>alkalne_reuse_software</RootNamespace>
+    <AssemblyName>AlkalineReuse</AssemblyName>
+    <Name>AlkalineReuse</Name>
+    <RootNamespace>AlkalineReuse</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
